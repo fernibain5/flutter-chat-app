@@ -1,6 +1,7 @@
-import 'package:chat/pages/loading_page.dart';
+import 'package:chat/pages/chat_page.dart';
 import 'package:chat/pages/login_page.dart';
 import 'package:chat/pages/users_page.dart';
+
 import 'package:chat/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Material App',
-      initialRoute: LoginPage.routeName,
+      initialRoute: ChatPage.routeName,
       routes: appRoutes,
     );
   }

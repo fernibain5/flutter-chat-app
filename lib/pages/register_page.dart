@@ -78,8 +78,6 @@ class __FormState extends State<_Form> {
             textController: passCtrl,
             isPassword: true,
           ),
-
-          //TODO: Crear Boton
           BlueBtn(
             onPressedHandler: () {
               print(emailCtrl.text);

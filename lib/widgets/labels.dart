@@ -18,7 +18,7 @@ class Labels extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            title,
+            this.title,
             style: TextStyle(
               color: Colors.black54,
               fontSize: 15,
@@ -31,7 +31,7 @@ class Labels extends StatelessWidget {
           GestureDetector(
             onTap: () => Navigator.of(context).pushReplacementNamed(this.route),
             child: Text(
-              subtitle,
+              this.subtitle,
               style: TextStyle(
                 color: Colors.blue[600],
                 fontSize: 18,
