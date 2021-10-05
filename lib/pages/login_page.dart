@@ -1,9 +1,15 @@
+import 'package:chat/helpers/showAlert.dart';
+import 'package:chat/main.dart';
 import 'package:chat/pages/register_page.dart';
+import 'package:chat/pages/users_page.dart';
+import 'package:chat/services/auth_service.dart';
+
 import 'package:chat/widgets/CustomInput.dart';
 import 'package:chat/widgets/labels.dart';
 import 'package:chat/widgets/logo.dart';
 import 'package:chat/widgets/blue_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   static const routeName = 'logIn-page';
@@ -54,6 +60,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authServices = Provider.of<AuthServices>(context);
+
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -72,10 +80,22 @@ class __FormState extends State<_Form> {
             isPassword: true,
           ),
           BlueBtn(
-            onPressedHandler: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-            },
+            onPressedHandler: authServices.authenticating
+                ? null
+                : () async {
+                    final loginOk = await authServices.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+                    FocusScope.of(context).unfocus();
+
+                    if (loginOk) {
+                      Navigator.of(context)
+                          .pushReplacementNamed(UsersPage.routeName);
+                    } else {
+                      //Mostrar alerta
+                      showAlert(context, 'Login Incorrecto',
+                          'Revise sus credenciales');
+                    }
+                  },
             text: 'Ingrese',
           ),
         ],

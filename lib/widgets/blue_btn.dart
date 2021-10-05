@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BlueBtn extends StatelessWidget {
-  final void Function() onPressedHandler;
+  final void Function()? onPressedHandler;
   final String text;
 
   const BlueBtn({

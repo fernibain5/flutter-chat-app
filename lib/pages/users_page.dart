@@ -1,5 +1,8 @@
 import 'package:chat/models/user.dart';
+import 'package:chat/pages/login_page.dart';
+import 'package:chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class UsersPage extends StatefulWidget {
@@ -14,23 +17,30 @@ class _UsersPageState extends State<UsersPage> {
       RefreshController(initialRefresh: false);
 
   final users = [
-    User(online: true, email: 'test1@test.com', uid: '1', name: 'Fernando'),
-    User(online: true, email: 'test2@test.com', uid: '2', name: 'Arturo'),
-    User(online: false, email: 'test3@test.com', uid: '3', name: 'Jose'),
+    User(online: true, email: 'test1@test.com', uid: '1', nombre: 'Fernando'),
+    User(online: true, email: 'test2@test.com', uid: '2', nombre: 'Arturo'),
+    User(online: false, email: 'test3@test.com', uid: '3', nombre: 'Jose'),
   ];
   @override
   Widget build(BuildContext context) {
+    final authServices = Provider.of<AuthServices>(context);
+    final user = authServices.user!;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Mi nombre',
+          user.nombre,
           style: TextStyle(color: Colors.black54),
         ),
         backgroundColor: Colors.white,
         leading: IconButton(
           color: Colors.black54,
-          onPressed: () {},
+          onPressed: () {
+            //TODO: Desconectar del sockets server
+            Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
+            AuthServices.deleteToken();
+          },
           icon: Icon(Icons.exit_to_app),
         ),
         actions: [
@@ -87,10 +97,10 @@ class _UserListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(user.name),
+      title: Text(user.nombre),
       leading: CircleAvatar(
         backgroundColor: Colors.blue[100],
-        child: Text(user.name.substring(0, 2)),
+        child: Text(user.nombre.substring(0, 2)),
       ),
       trailing: Container(
         width: 10,
